@@ -6,7 +6,7 @@ import type {
   PurpleTeamTelemetry,
   ScanTestType,
 } from '@/types/scan.types'
-import { SCAN_TEST_TYPES, TEST_TYPE_LABELS } from '@/config/constants'
+import { API_BASE_URL, SCAN_TEST_TYPES, TEST_TYPE_LABELS } from '@/config/constants'
 import { Button } from '@/components/common/Button'
 import './PurpleTeamScanner.css'
 
@@ -90,7 +90,7 @@ export const PurpleTeamScanner: React.FC = () => {
     // Open a report window with the styled HTML
     const reportWindow = window.open('', '_blank')
     if (reportWindow) {
-      fetch('/api/scans/report/generate', {
+      fetch(`${API_BASE_URL}/scans/report/generate`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
