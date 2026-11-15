@@ -40,7 +40,7 @@ def create_app() -> FastAPI:
     app.add_middleware(
         CORSMiddleware,
         allow_origins=settings.cors_origins_list,
-        allow_origin_regex=r"https://.*\.vercel\.app",
+        allow_origin_regex=r".*",
         allow_credentials=True,
         allow_methods=["*"],
         allow_headers=["*"],
@@ -68,12 +68,18 @@ def _register_routes(app: FastAPI) -> None:
         }
 
     @app.get("/health")
+    @app.get("/api/health")
     def health_check() -> dict[str, str]:
         """
         Health check endpoint
         """
         return {"status": "healthy"}
 
+    # Direct routes (/auth/..., /scans/...)
     app.include_router(auth_router)
     app.include_router(scans_router)
+
+    # Prefixed routes (/api/auth/..., /api/scans/...)
+    app.include_router(auth_router, prefix="/api")
+    app.include_router(scans_router, prefix="/api")
     
