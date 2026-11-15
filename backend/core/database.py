@@ -9,11 +9,21 @@ from sqlalchemy.orm import Session, declarative_base, sessionmaker
 
 from config import settings
 
+# Normalize database URL (Render provides postgres:// which SQLAlchemy 2.0 requires as postgresql://)
+db_url = settings.DATABASE_URL
+if db_url.startswith("postgres://"):
+    db_url = db_url.replace("postgres://", "postgresql://", 1)
+
+connect_args = {}
+if db_url.startswith("sqlite"):
+    connect_args["check_same_thread"] = False
+
 # Database engine
 engine = create_engine(
-    settings.DATABASE_URL,
+    db_url,
     pool_pre_ping = True,
     echo = settings.DEBUG,
+    connect_args = connect_args,
 )
 
 # Session factory

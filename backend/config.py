@@ -24,7 +24,7 @@ class Settings(BaseSettings):
     DEBUG: bool = False
 
     # Database configuration
-    DATABASE_URL: str
+    DATABASE_URL: str = "sqlite:///./apisecurity.db"
     POSTGRES_USER: str = "apiuser"
     POSTGRES_PASSWORD: str = "apipass"
     POSTGRES_DB: str = "apisecurity"
@@ -32,7 +32,7 @@ class Settings(BaseSettings):
     POSTGRES_PORT: int = 5432
 
     # Security - JWT
-    SECRET_KEY: str
+    SECRET_KEY: str = "change-this-secret-key-in-production-purpleteam-bas"
     ALGORITHM: str = "HS256"
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 1440  # 24 hours
 
